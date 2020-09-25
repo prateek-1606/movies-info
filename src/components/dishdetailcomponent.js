@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import { Card,CardImg,CardImgOverlay,CardBody,CardText,CardTitle } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
 class Dishdetail extends Component {
-
-  constructor (props) {
+ constructor (props) {
     super(props)
     this.state = {
 
     }
   }
   renderComments=(comments) => {
-    
-
      if(comments!=null) {
 
        const com = comments.map(co=>{
