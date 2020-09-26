@@ -3,6 +3,8 @@ import {Navbar,NavbarBrand } from 'reactstrap';
 import Menu from './MenuComponents';
 import { DISHES } from '../shared/dishes';
 import Dishdetail from './dishdetailcomponent';
+import Home from './HomeComponents';
+import {Switch,Route,Redirect} from 'react-router-dom';
 import Header from './HeaderComponents';
 import Footer from './FooterComponents';
 
@@ -12,26 +14,26 @@ class Main extends Component {
      super(props);
 
      this.state = {
-      dishes:DISHES,
-      selectedDish:null
+      dishes:DISHES
      };
   }
 
-   onDishSelect(dishId) {
-      this.setState({selectedDish:dishId});
-    }
-
   render() {
+
+     const HomePage = () => {
+       return (
+         <Home/>
+       );
+      }
+      
     return (
       <div>
-          <Header/>
-          <div className="container">
-          <div className="row">
-        <Menu dishes={this.state.dishes} onClick={(dishId) => this.onDishSelect(dishId)}/>  
-        <Dishdetail selectedDish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]}/>
-        
-        </div>
-        </div>
+        <Header/>
+        <Switch>
+          <Route path="/home" component={HomePage}/>
+          <Route path="/menu" component={()=><Menu dishes={this.state.dishes}/>}/>
+          <Redirect to="/home"/>
+        </Switch>
         <Footer/>
       </div>
     );
