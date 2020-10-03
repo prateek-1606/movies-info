@@ -30,7 +30,7 @@ function RenderDish({ dish }) {
   );
 }
 
-function RenderComments({ comments }) {
+function RenderComments({ comments, addComment , dishId}) {
   if (comments != null) {
     return (
       <div className="col-12 col-md-5 m-1">
@@ -48,7 +48,7 @@ function RenderComments({ comments }) {
             </li>
           </ul>
         ))}
-        <CommentForm/>
+        <CommentForm dishId={dishId} addComment={addComment} />
       </div>
     );
   }
@@ -71,7 +71,9 @@ const DishDetailComponent = props => (
     </div>
     <div className="row">
       <RenderDish dish={props.dish} />
-      <RenderComments comments={props.comments} />
+      <RenderComments comments={props.comments} 
+       addComment={props.addComment} 
+       dishId={props.dish.id} />
     </div>
   </div> );
 
@@ -88,7 +90,7 @@ class CommentForm extends Component {
 
    handleLogin(values){
      this.toggleModal();
-     alert("Rating: " + values.rating + " Name: " + values.name + " Comment : " + values.comment );
+     this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
   }
 
   toggleModal() {
@@ -120,8 +122,8 @@ class CommentForm extends Component {
                       </Row>
                       <Row className="form-group">
                          <Col md={10}>
-                           <Label htmlFor="name" >Your Name</Label>
-                           <Control.text model=".name" id="name" name="name" 
+                           <Label htmlFor="author" >Your Name</Label>
+                           <Control.text model=".author" id="author" name="author" 
                               placeholder="Your Name"
                               className="form-control" 
                               validators={{
