@@ -12,6 +12,7 @@ import {
 import {Form,FormGroup,Label,Input,Modal,ModalHeader,ModalBody,Row,Col} from 'reactstrap';
 import { Link } from "react-router-dom";
 import {Control,LocalForm,Errors} from 'react-redux-form';
+import { Loading } from './LoadingComponent';
 
     const maxLength = (len) => (val) => !(val) || (val.length <= len);
     const minLength = (len) => (val) => val && (val.length >= len);
@@ -55,7 +56,28 @@ function RenderComments({ comments, addComment , dishId}) {
   else return <div />;
 }
 
-const DishDetailComponent = props => (
+const DishDetailComponent = (props) => {
+
+  if(props.isLoading) {
+    return(
+        <div className="container">
+           <div className="row">
+               <Loading/>
+           </div>
+        </div>
+    );
+  }
+  else if(props.errMess) {
+    return(
+        <div className="container">
+           <div className="row">
+               <h4>{props.errMess}</h4>
+           </div>
+        </div>
+    );
+  }
+  else if(props.dish != null)
+  return(
   <div className="container">
     <div className="row">
       <Breadcrumb>
@@ -75,7 +97,9 @@ const DishDetailComponent = props => (
        addComment={props.addComment} 
        dishId={props.dish.id} />
     </div>
-  </div> );
+  </div>
+  );
+}
 
 class CommentForm extends Component {
 
@@ -144,7 +168,7 @@ class CommentForm extends Component {
                               className="form-control" />
                           </Col>
                       </Row>
-                      <Button type="submit" value="submit" color="primary">Login</Button>
+                      <Button type="submit" value="submit" color="primary">Submit</Button>
                  </LocalForm>
            </ModalBody>
        </Modal>
